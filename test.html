@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>NewtonJS Test</title>
+		
+		<script src="eve.js" type="text/javascript"></script>
+		<script src="util.js" type="text/javascript"></script>
+		<script src="http://code.jquery.com/jquery-1.9.1.min.js" type="text/javascript"></script>
+		<script src="https://raw.github.com/DmitryBaranovskiy/raphael/v1.4.7/raphael-min.js" type="text/javascript"></script>
+		<script src="box2dweb.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			var Mixow = Mixow || {};
+		</script>	
+		<script src="newton.js" type="text/javascript"></script>		
+	</head>
+	
+	<body>
+		<script type="text/javascript">
+			Mixow = Mixow || {};
+			
+			;(function(jQuery, Raphael) {
+
+			    jQuery(document).ready(function() {
+
+			        paper = Raphael(jQuery('.paper')[0], "100%", "100%");
+					jQuery(paper.canvas).parent().width(1500);
+			        var a = {
+			            stroke: "none",
+			            fill: "#666"
+			        };
+					var aT = {
+							"stroke": "none",
+							"fill": "url(http://us.123rf.com/400wm/400/400/photo25th/photo25th0811/photo25th081100027/3845576-wooden-tile-texture.jpg)"
+					}; 
+
+			        world = paper.world();
+
+			        var floor = paper.rect(10, 500, 1100, 5).attr(a),
+			            ball = paper.circle(270, 50, 50).attr(a),
+						//box1 = paper.rect(200, 400, 30, 100).attr(a),
+						box3 = paper.rect(200, 300, 10, 100).attr(a),
+						box5 = paper.rect(200, 400, 10, 100).attr(a),
+						dot2 = paper.circle(350, 500, 10).attr(a);
+
+					var dot1 = paper.circle(320, 300, 10).attr(a).click(function(e) {
+								world.getById(this.id).impulse(-45, 10);
+							})	
+
+					//var backg = paper.image("https://www.filepicker.io/api/file/74x6qm7lTnGHQr2enO4x", 0, 0, 600, 600).toBack();
+					//var backg = paper.image("https://www.filepicker.io/api/file/74x6qm7lTnGHQr2enO4x", 50, 50, 800, 600);
+						//var box1 = paper.rect(200, 400, 30, 100).attr(a);
+
+					/*	
+			        var dot1 = paper.circle(220, 150, 10).attr(a).click(function(e) {
+							world.getById(this.id).impulse(-45, 10);
+						}),
+			            dot2 = paper.circle(350, 300, 10).attr(a),
+			            box1 = paper.rect(200, 400, 30, 100).attr(a),
+			            box2 = paper.rect(200, 300, 30, 100).attr(aT),
+			            box3 = paper.rect(300, 400, 10, 100).attr(a),
+						box4 = paper.rect(250, 400, 10, 100).attr(a),
+
+						box5 = paper.rect(800, 400, 10, 100).attr(a),
+						//dot3 = paper.circle(250, 200, 10).attr(a),
+						tri = paper.path("M 50 0 L 100 100 L 0 100 Z").attr(a),
+						red_block = paper.image("https://www.filepicker.io/api/file/gRdOCe7TBWhppZUfTRnA", 100, 100, 41, 41);	
+
+						//star = paper.star(200, 60, 50, 100, 9).attr(a);
+					*/	
+
+			        world.addStatic(floor);		
+			        world.add(ball);
+					//world.add(box1);
+					world.add(box3);
+					world.add(box5);
+					world.addStatic(dot1);
+					world.add(dot2);
+
+					/*
+					world.add(box1, {
+						behaviors: {
+							'click': 'click-destroy'
+						}
+					});				
+
+			        world.add(dot1);
+			        world.addStatic(dot2);
+
+			        world.add(box2);
+			        world.add(box3);
+			        world.add(box4);
+					*/
+
+
+					//world.add(tri);	
+					//world.add(red_block);	
+
+
+					world.run();
+
+					
+					eve.on("mixow.game.collision", function(entityA, entityB, impulse) {
+						if (impulse > 50) {
+							entityA.getShape().attr({fill: "#fff"}).stop().animate({fill: "#666"}, 300);
+							entityB.getShape().attr({fill: "#fff"}).stop().animate({fill: "#666"}, 300);
+						}
+					});
+
+			    })
+
+			})(jQuery, Raphael);
+		</script>
+		<div class="container">
+			<div class="paper">
+			</div>
+		</div>		
+	</body>
+</html>		
